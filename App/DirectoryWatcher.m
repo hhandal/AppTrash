@@ -51,9 +51,9 @@ void StreamCallback (ConstFSEventStreamRef streamRef, void *clientCallBackInfo, 
 }
 
 - (void)createEventStream {
-	FSEventStreamContext context = { 0, self, NULL, NULL, NULL };
-	CFStringRef aPath = (CFStringRef) path;
-	CFArrayRef paths = CFArrayCreate(NULL, (const void **) &aPath, 1, NULL);
+	FSEventStreamContext context = { 0, (__bridge void *)self, NULL, NULL, NULL };
+	CFStringRef aPath = (__bridge CFStringRef)path;
+	CFArrayRef paths = CFArrayCreate(NULL, (const void **)&aPath, 1, NULL);
 	
 	stream = FSEventStreamCreate(NULL, &StreamCallback, &context, paths, kFSEventStreamEventIdSinceNow, 1.0f, 0);
 	CFRelease(paths);
@@ -136,7 +136,7 @@ void StreamCallback (ConstFSEventStreamRef streamRef, void *clientCallBackInfo, 
 
 void StreamCallback (ConstFSEventStreamRef streamRef, void *clientCallBackInfo, size_t numEvents, void *eventPaths, const FSEventStreamEventFlags eventFlags[], const FSEventStreamEventId eventIds[]) {
 	
-	DirectoryWatcher *self = (DirectoryWatcher *) clientCallBackInfo;
+	DirectoryWatcher *self = (__bridge DirectoryWatcher *)clientCallBackInfo;
 	[self directoryChanged];
 }
 

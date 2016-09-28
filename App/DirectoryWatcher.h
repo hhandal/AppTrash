@@ -19,11 +19,9 @@
 	NSString *path;
 	NSArray *currentSnapshot;
 	FSEventStreamRef stream;
-	
-	id < DirectoryWatcherDelegate > delegate;
 }
 
-@property (nonatomic, assign) id < DirectoryWatcherDelegate > delegate;
+@property (nonatomic, weak) id <DirectoryWatcherDelegate> delegate;
 
 - (id)initWithPath:(NSString *)aPath;
 

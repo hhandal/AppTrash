@@ -37,14 +37,16 @@
 	
 	NSString *baseName = [aPath stringByDeletingPathExtension];
 	NSString *suffix = [aPath pathExtension];
-	NSUInteger n = 2;
+	NSInteger n = 2;
 	NSString *fname = aPath;
 	
 	while ([self fileExistsAtPath:fname]) {
 		if ([suffix length] == 0)
-			fname = [baseName stringByAppendingString:[NSString stringWithFormat:@" %i", n++]];
+			fname = [baseName stringByAppendingString:[NSString stringWithFormat:@" %ld", (long)n]];
 		else
-			fname = [baseName stringByAppendingString:[NSString stringWithFormat:@" %i.%@", n++, suffix]];
+			fname = [baseName stringByAppendingString:[NSString stringWithFormat:@" %ld.%@", (long)n, suffix]];
+
+		n++;
 		
 		if (n <= 0)
 			return nil;

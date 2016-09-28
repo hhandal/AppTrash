@@ -9,9 +9,6 @@
 
 @interface RelatedWindowController : NSWindowController < SelectionTableViewDelegate > {
   @private
-	NSArrayController *filesController;
-	NSImageView *appIconView;
-	NSString *applicationPath;
 	BOOL checked;
 }
 
