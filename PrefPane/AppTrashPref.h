@@ -10,7 +10,6 @@
 
 @interface AppTrashPref : NSPreferencePane {
   @private
-	NSTextField *statusView;
 	LoginItemsManager *loginManager;
 	NSString *installPath;
 	BOOL installed;
@@ -22,7 +21,7 @@
 @property (nonatomic, assign, getter=isRunning) BOOL running;
 @property (nonatomic, assign, getter=shouldAutoLaunch) BOOL autoLaunch;
 
-@property (nonatomic, assign) IBOutlet NSTextField *statusView;
+@property (nonatomic, weak) IBOutlet NSTextField *statusView;
 
 - (IBAction)install:(id)sender;
 - (IBAction)uninstall:(id)sender;

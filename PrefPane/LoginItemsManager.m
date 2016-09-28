@@ -36,7 +36,7 @@ void ItemsChanged (LSSharedFileListRef inList, void *context);
 	if (self) {
 		loginItems = LSSharedFileListCreate(NULL, kLSSharedFileListSessionLoginItems, NULL);
 		
-		LSSharedFileListAddObserver(loginItems, CFRunLoopGetCurrent(), kCFRunLoopCommonModes, &ItemsChanged, self);
+		LSSharedFileListAddObserver(loginItems, CFRunLoopGetCurrent(), kCFRunLoopCommonModes, &ItemsChanged, (__bridge void *)self);
 	}
 	return self;
 }
@@ -52,8 +52,7 @@ void ItemsChanged (LSSharedFileListRef inList, void *context);
 		
 		CFURLRef url = NULL;
 		LSSharedFileListItemResolve(item, 0, &url, NULL);
-		
-		NSURL *cURL = (NSURL *) url;
+		NSURL *cURL = CFBridgingRelease(url);
 		
 		if ([[cURL path] isEqualToString:aPath]) {
 			if (outItem) {
@@ -73,7 +72,7 @@ void ItemsChanged (LSSharedFileListRef inList, void *context);
 	NSParameterAssert(aPath != nil);
 	
 	NSURL *url = [NSURL fileURLWithPath:aPath];
-	LSSharedFileListInsertItemURL(loginItems, kLSSharedFileListItemLast, NULL, NULL, (CFURLRef) url, NULL, NULL);
+	LSSharedFileListInsertItemURL(loginItems, kLSSharedFileListItemLast, NULL, NULL, (__bridge CFURLRef)url, NULL, NULL);
 }
 
 - (void)removeItemAtPath:(NSString *)aPath {
@@ -92,7 +91,7 @@ void ItemsChanged (LSSharedFileListRef inList, void *context);
 }
 
 void ItemsChanged (LSSharedFileListRef inList, void *context) {
-	LoginItemsManager *self = (LoginItemsManager *) context;
+	LoginItemsManager *self = (__bridge LoginItemsManager *)context;
 	[self postNotification];
 }
 
@@ -103,7 +102,6 @@ void ItemsChanged (LSSharedFileListRef inList, void *context) {
 
 - (void)dealloc {
 	CFRelease(loginItems);
-	[super dealloc];
 }
 
 @end

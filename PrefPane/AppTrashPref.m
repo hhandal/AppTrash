@@ -76,7 +76,7 @@
 			return nil;
 		}
 		
-		installPath = [[[paths objectAtIndex:0] stringByAppendingPathComponent:@"AppTrash/AppTrash.app"] retain];
+		installPath = [[paths objectAtIndex:0] stringByAppendingPathComponent:@"AppTrash/AppTrash.app"];
 	}
 	
 	return installPath;
@@ -154,7 +154,7 @@
 	
 	if (![[NSWorkspace sharedWorkspace] launchApplicationAtURL:url
 													   options:NSWorkspaceLaunchWithoutActivation
-												 configuration:nil
+												 configuration:@{}
 														 error:&error]) {
 		
 		NSLog(@"Cannot start AppTrash 'agent'. Error: %@", error);
@@ -205,11 +205,6 @@
 	[self uninstallApp];
 	
 	[self updateStatus];
-}
-
-- (void)dealloc {
-	[installPath release];
-	[super dealloc];
 }
 
 @end
